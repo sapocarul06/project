@@ -69,7 +69,7 @@ namespace NutritionApp.Services
         /// <summary>
         /// Procesează notificările din coadă folosind fire de execuție paralele
         /// </summary>
-        private async void ProcessNotificationsAsync()
+        private void ProcessNotificationsAsync()
         {
             while (_isRunning && _notificationQueue.Count > 0)
             {
@@ -83,7 +83,7 @@ namespace NutritionApp.Services
                 }
                 
                 // Așteaptă ca toate thread-urile curente să se termine
-                await Task.WhenAll(tasks);
+                Task.WaitAll(tasks.ToArray());
             }
         }
         
@@ -158,7 +158,7 @@ Data: {task.CreatedAt:dd.MM.yyyy HH:mm:ss}
         /// Monitorizează apariția de anunțuri noi și notifică utilizatorii
         /// Rulează continuu în background
         /// </summary>
-        public async Task MonitorNewAnnouncementsAsync(List<FoodItem> newFoodItems)
+        public Task MonitorNewAnnouncementsAsync(List<FoodItem> newFoodItems)
         {
             Console.WriteLine("[MONITOR] Se monitorizează anunțurile noi...");
             
@@ -172,9 +172,11 @@ Data: {task.CreatedAt:dd.MM.yyyy HH:mm:ss}
                     AddNotification(user.Profile, foodItem, user.Email);
                 }
                 
-                // Mic delay pentru a nu supraîncărca sistemul
-                await Task.Delay(100);
+                // Mic delay pentru a nu supraîncărca sistemul (folosim Thread.Sleep pt C# 7.3)
+                System.Threading.Thread.Sleep(100);
             }
+            
+            return Task.FromResult(0);
         }
         
         /// <summary>
