@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace NutritionApp.Utils
 {
@@ -44,7 +45,7 @@ namespace NutritionApp.Utils
             // Benchmark 1: Operații pe liste
             var listTime = MeasureExecutionTime(() =>
             {
-                var list = new System.Collections.Generic.List<int>();
+                var list = new List<int>();
                 for (int i = 0; i < 10000; i++)
                     list.Add(i);
             });
@@ -62,21 +63,26 @@ namespace NutritionApp.Utils
             // Benchmark 3: Operații pe Dictionary
             var dictTime = MeasureExecutionTime(() =>
             {
-                var dict = new System.Collections.Generic.Dictionary<int, string>();
+                var dict = new Dictionary<int, string>();
                 for (int i = 0; i < 10000; i++)
                     dict.Add(i, $"Item{i}");
             });
             Console.WriteLine($"║ Dictionary - Adăugare 10k elemente: {dictTime.TotalMilliseconds:F2}ms");
             
-            // Benchmark 4: LINQ query
-            var linqTime = MeasureExecutionTime(() =>
+            // Benchmark 4: Filtrare manuală (fără LINQ pentru compatibilitate C# 7.3)
+            var filterTime = MeasureExecutionTime(() =>
             {
-                var numbers = new System.Collections.Generic.List<int>();
+                var numbers = new List<int>();
                 for (int i = 0; i < 10000; i++)
                     numbers.Add(i);
-                var result = numbers.Where(n => n % 2 == 0).ToList();
+                var result = new List<int>();
+                foreach (var n in numbers)
+                {
+                    if (n % 2 == 0)
+                        result.Add(n);
+                }
             });
-            Console.WriteLine($"║ LINQ Query - Filtrare 10k elemente: {linqTime.TotalMilliseconds:F2}ms");
+            Console.WriteLine($"║ Manual Filter - Filtrare 10k elemente: {filterTime.TotalMilliseconds:F2}ms");
             
             Console.WriteLine(@"
 ╠══════════════════════════════════════════════════════════════════════════════╣
@@ -146,7 +152,7 @@ namespace NutritionApp.Utils
         /// <summary>
         /// Calculează statistici avansate pentru un set de date
         /// </summary>
-        public void CalculateAdvancedStatistics(System.Collections.Generic.List<double> data)
+        public void CalculateAdvancedStatistics(List<double> data)
         {
             if (data == null || data.Count == 0)
             {
@@ -161,7 +167,7 @@ namespace NutritionApp.Utils
             double mean = sum / data.Count;
             
             // Calcul mediană
-            var sorted = new System.Collections.Generic.List<double>(data);
+            var sorted = new List<double>(data);
             sorted.Sort();
             double median = sorted.Count % 2 == 0 
                 ? (sorted[sorted.Count / 2 - 1] + sorted[sorted.Count / 2]) / 2 

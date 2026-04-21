@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NutritionApp.Models;
 
 namespace NutritionApp.Repositories
@@ -49,16 +48,24 @@ namespace NutritionApp.Repositories
         
         public List<FoodItem> SearchFoodItems(string query)
         {
-            return _foodItems
-                .Where(f => f.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            var result = new List<FoodItem>();
+            foreach (var f in _foodItems)
+            {
+                if (f.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                    result.Add(f);
+            }
+            return result;
         }
         
         public List<FoodItem> GetFoodItemsByCategory(string category)
         {
-            return _foodItems
-                .Where(f => f.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            var result = new List<FoodItem>();
+            foreach (var f in _foodItems)
+            {
+                if (f.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                    result.Add(f);
+            }
+            return result;
         }
         
         #endregion
@@ -72,9 +79,13 @@ namespace NutritionApp.Repositories
         
         public List<MealPlan> GetMealPlansByDateRange(DateTime start, DateTime end)
         {
-            return _mealPlans
-                .Where(m => m.Date >= start && m.Date <= end)
-                .ToList();
+            var result = new List<MealPlan>();
+            foreach (var m in _mealPlans)
+            {
+                if (m.Date >= start && m.Date <= end)
+                    result.Add(m);
+            }
+            return result;
         }
         
         #endregion

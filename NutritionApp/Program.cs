@@ -289,9 +289,9 @@ Alege o opțiune: ");
                 };
             }
             
-            Task notificationTask = Task.Run(async () =>
+            Task notificationTask = Task.Run(() =>
             {
-                await notificationService.MonitorNewAnnouncementsAsync(foodItems);
+                notificationService.MonitorNewAnnouncementsAsync(foodItems).Wait();
             });
             notificationTask.Wait();
             
@@ -299,7 +299,7 @@ Alege o opțiune: ");
             notificationService.Stop();
         }
         
-        static async Task RunAsyncServiceDemo()
+        static void RunAsyncServiceDemo()
         {
             Console.WriteLine("\n=== INTEGRARE SERVICIU ASINCRON ===\n");
             
@@ -310,14 +310,14 @@ Alege o opțiune: ");
                 System.Threading.Thread.Sleep(1000);
                 Console.WriteLine("Task 1 completat");
             });
-            await task1;
+            task1.Wait();
             
             Task task2 = Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(800);
                 Console.WriteLine("Task 2 completat");
             });
-            await task2;
+            task2.Wait();
             
             Console.WriteLine("Toate task-urile asincrone au fost completate.");
         }

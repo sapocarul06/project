@@ -46,20 +46,23 @@ namespace NutritionApp.Services
         /// <summary>
         /// Trimite un email asincron
         /// </summary>
-        public async Task SendEmailAsync(string toEmail, string subject, string body)
+        public Task SendEmailAsync(string toEmail, string subject, string body)
         {
             try
             {
                 var mailMessage = new MailMessage(_fromEmail, toEmail, subject, body);
                 mailMessage.IsBodyHtml = true;
                 
-                await _smtpClient.SendMailAsync(mailMessage);
+                // Pentru C# 7.3, folosim varianta sync și învelim în Task
+                _smtpClient.Send(mailMessage);
                 Console.WriteLine($"[EMAIL] Email trimis asincron către {toEmail}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[EMAIL] Eroare la trimitere asincronă: {ex.Message}");
             }
+            
+            return Task.FromResult(0);
         }
         
         /// <summary>
