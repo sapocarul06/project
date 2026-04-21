@@ -194,7 +194,7 @@ Data: {task.CreatedAt:dd.MM.yyyy HH:mm:ss}
                         WeightKg = 70, 
                         Age = 30, 
                         Sex = 'm', 
-                        ActivityLevel = UserProfile.ActivityLevel.Moderat 
+                        ActivityLevel = ActivityLevel.Moderat 
                     }
                 },
                 new InterestedUser
@@ -206,7 +206,7 @@ Data: {task.CreatedAt:dd.MM.yyyy HH:mm:ss}
                         WeightKg = 60, 
                         Age = 25, 
                         Sex = 'f', 
-                        ActivityLevel = UserProfile.ActivityLevel.Intens 
+                        ActivityLevel = ActivityLevel.Intens 
                     }
                 }
             };

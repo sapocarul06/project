@@ -65,10 +65,10 @@ namespace NutritionApp.Utils
         }
         
         /// <summary>
-        /// Verifică dacă două imagini sunt identice sau foarte similare
+        /// Verifică dacă două hash-uri sunt identice sau foarte similare
         /// Threshold: numărul maxim de biți diferiți acceptat (default 5)
         /// </summary>
-        public static bool AreImagesSimilar(string hash1, string hash2, int threshold = 5)
+        public static bool AreHashesSimilar(string hash1, string hash2, int threshold = 5)
         {
             int distance = CalculateHammingDistance(hash1, hash2);
             return distance <= threshold;
@@ -81,7 +81,7 @@ namespace NutritionApp.Utils
         {
             string hash1 = GeneratePerceptualHash(imagePath1);
             string hash2 = GeneratePerceptualHash(imagePath2);
-            return AreImagesSimilar(hash1, hash2, threshold);
+            return AreHashesSimilar(hash1, hash2, threshold);
         }
     }
 }

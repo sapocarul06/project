@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Newtonsoft.Json;
 using NutritionApp.Models;
 
 namespace NutritionApp.Services
