@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NutritionApp.Models;
 
 namespace NutritionApp.Services
 {
@@ -23,7 +25,7 @@ namespace NutritionApp.Services
         /// Notă: Pentru PDF real, ar necesita o librărie iTextSharp sau similar
         /// Aici generăm un HTML care poate fi convertit la PDF
         /// </summary>
-        public string GeneratePdfReport(string userName, Models.MealPlan mealPlan, Models.Macronutrients macros)
+        public string GeneratePdfReport(string userName, MealPlan mealPlan, Macronutrients macros)
         {
             string fileName = $"MealPlan_{userName}_{DateTime.Now:yyyyMMdd}.pdf";
             string filePath = Path.Combine(_outputDirectory, fileName);
@@ -112,7 +114,7 @@ namespace NutritionApp.Services
         /// <summary>
         /// Generează un raport Excel (.csv) cu datele nutriționale
         /// </summary>
-        public string GenerateExcelReport(string userName, System.Collections.Generic.List<Models.FoodItem> foodItems)
+        public string GenerateExcelReport(string userName, List<FoodItem> foodItems)
         {
             string fileName = $"NutritionData_{userName}_{DateTime.Now:yyyyMMdd}.csv";
             string filePath = Path.Combine(_outputDirectory, fileName);

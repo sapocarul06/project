@@ -2,10 +2,10 @@
 # Build artifacts
 bin/
 obj/
-*.dll
 *.exe
+*.dll
 *.pdb
-*.config
+*.userprefs
 
 # Dependencies
 packages/
@@ -21,20 +21,13 @@ node_modules/
 *.env.*
 
 # Editors
+.vs/
+.vshost/
+.ReSharper/
 .vscode/
 .idea/
-*.userprefs
 
 # OS generated files
 .DS_Store
 Thumbs.db
-
-# Test coverage
-coverage/
-htmlcov/
-*.coverage
-
-# Temporary files
-*.tmp
-*.temp
 ```

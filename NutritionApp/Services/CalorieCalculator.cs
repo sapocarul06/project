@@ -43,13 +43,13 @@ namespace NutritionApp.Services
             
             switch (profile.ActivityLevel)
             {
-                case UserProfile.ActivityLevel.Sedentar:
+                case ActivityLevel.Sedentar:
                     activityMultiplier = 1.2;
                     break;
-                case UserProfile.ActivityLevel.Moderat:
+                case ActivityLevel.Moderat:
                     activityMultiplier = 1.55;
                     break;
-                case UserProfile.ActivityLevel.Intens:
+                case ActivityLevel.Intens:
                     activityMultiplier = 1.725;
                     break;
             }
@@ -89,21 +89,6 @@ namespace NutritionApp.Services
                 CarbsGrams = (int)(carbCalories / 4),
                 FatGrams = (int)(fatCalories / 9)
             };
-        }
-    }
-    
-    /// <summary>
-    /// Model pentru macronutrienți
-    /// </summary>
-    public class Macronutrients
-    {
-        public int ProteinGrams { get; set; }
-        public int CarbsGrams { get; set; }
-        public int FatGrams { get; set; }
-        
-        public override string ToString()
-        {
-            return $"Proteine: {ProteinGrams}g, Carbohidrați: {CarbsGrams}g, Grăsimi: {FatGrams}g";
         }
     }
 }

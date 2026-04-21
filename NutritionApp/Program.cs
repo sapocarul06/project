@@ -155,12 +155,11 @@ Alege o opțiune: ");
                 Console.Write("Alege: ");
                 int activityChoice = int.Parse(Console.ReadLine());
                 
-                UserProfile.ActivityLevel activityLevel = activityChoice switch
-                {
-                    2 => UserProfile.ActivityLevel.Moderat,
-                    3 => UserProfile.ActivityLevel.Intens,
-                    _ => UserProfile.ActivityLevel.Sedentar
-                };
+                ActivityLevel activityLevel = ActivityLevel.Sedentar;
+                if (activityChoice == 2)
+                    activityLevel = ActivityLevel.Moderat;
+                else if (activityChoice == 3)
+                    activityLevel = ActivityLevel.Intens;
                 
                 var profile = new UserProfile
                 {
@@ -217,12 +216,13 @@ Alege o opțiune: ");
             Console.Write("Alege provider: ");
             string choice = Console.ReadLine();
             
-            List<FoodItem> foodItems = choice switch
-            {
-                "1" => importService.ImportFromKaggle(""),
-                "2" => importService.ImportFromUSDA("demo-key", "healthy foods"),
-                _ => importService.ImportFromKaggle("")
-            };
+            List<FoodItem> foodItems;
+            if (choice == "1")
+                foodItems = importService.ImportFromKaggle("");
+            else if (choice == "2")
+                foodItems = importService.ImportFromUSDA("demo-key", "healthy foods");
+            else
+                foodItems = importService.ImportFromKaggle("");
             
             foreach (var item in foodItems)
             {
@@ -289,10 +289,11 @@ Alege o opțiune: ");
                 };
             }
             
-            Task.Run(async () =>
+            Task notificationTask = Task.Run(async () =>
             {
                 await notificationService.MonitorNewAnnouncementsAsync(foodItems);
-            }).Wait();
+            });
+            notificationTask.Wait();
             
             System.Threading.Thread.Sleep(2000); // Așteptăm procesarea
             notificationService.Stop();
@@ -304,17 +305,19 @@ Alege o opțiune: ");
             
             Console.WriteLine("Simulare procesare asincronă...");
             
-            await Task.Run(() =>
+            Task task1 = Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(1000);
                 Console.WriteLine("Task 1 completat");
             });
+            await task1;
             
-            await Task.Run(() =>
+            Task task2 = Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(800);
                 Console.WriteLine("Task 2 completat");
             });
+            await task2;
             
             Console.WriteLine("Toate task-urile asincrone au fost completate.");
         }
@@ -329,7 +332,7 @@ Alege o opțiune: ");
                 Date = DateTime.Now
             };
             
-            var macros = new Macronutrients
+            var macros = new Models.Macronutrients
             {
                 ProteinGrams = 150,
                 CarbsGrams = 200,
